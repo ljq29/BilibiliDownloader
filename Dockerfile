@@ -9,10 +9,15 @@ FROM python:alpine3.17
 ARG YOUTUBE_DL=youtube_dl
 ARG ATOMICPARSLEY=0
 
-VOLUME "/youtube-dl"
+VOLUME "/BilibiliDownloads"
 VOLUME "/app_config"
 
-COPY --from=nbr23/youtube-dl-wheels /out/wheels /wheels
+# 下载lux
+RUN apt install python3 python3-pip ffmpeg -y
+RUN wget https://github.com/iawia002/lux/releases/download/v0.15.0/lux_0.15.0_Linux_64-bit.tar.gz && tar -zxvf lux*.tar.gz && chmod 0777 lux && cp lux /usr/local/bin/ && rm -rf lux*
+RUN lux -v
+
+RUN wget 
 RUN pip install --no-cache /wheels/*
 
 RUN mkdir -p /usr/src/app
